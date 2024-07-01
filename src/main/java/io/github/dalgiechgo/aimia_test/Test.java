@@ -8,6 +8,7 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 
 import static io.github.dalgiechgo.aimia_test.ExampleTask.*;
+import static io.github.dalgiechgo.aimia_test.SocketTask.*;
 
 public final class Test extends JavaPlugin {
 
@@ -16,30 +17,34 @@ public final class Test extends JavaPlugin {
         // Plugin startup logic
         getLogger().info("STARTED!!!!!!!!!");
 
-        JSONObject jo = new JSONObject();
-        jo.put("x", 0);
-        jo.put("y", 1);
-        UseJson jf = new UseJson("plugins\\jsonFiles\\data.json");
-        try {
-            jf.write(jo);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            getLogger().info(jf.read().toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
+        BukkitTask socketTask = new SocketTask(this).runTaskAsynchronously(this);
         BukkitTask extask = new ExampleTask(this).runTaskAsynchronously(this);
-//        extask.run();
-        getLogger().info("Next statement");
 
-        for(int i=0; i<10; i++){
-            getLogger().info(Integer.toString(i)+"java");
-        }
+//        JSONObject jo = new JSONObject();
+//        jo.put("x", 0);
+//        jo.put("y", 1);
+//        UseJson jf = new UseJson("plugins\\jsonFiles\\data.json");
+//        try {
+//            jf.write(jo);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            getLogger().info(jf.read().toString());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//        BukkitTask extask = new ExampleTask(this).runTaskAsynchronously(this);
+////        extask.run();
+//        getLogger().info("Next statement");
+//
+//        for(int i=0; i<10; i++){
+//            getLogger().info(Integer.toString(i)+"java");
+//        }
+
     }
 
     @Override
@@ -50,6 +55,7 @@ public final class Test extends JavaPlugin {
 
 /*
 TODO
+socket, get/send json data with python
 get player location on python
 left(), right() on python
 runtasktimer/runtask make program simultaneously
