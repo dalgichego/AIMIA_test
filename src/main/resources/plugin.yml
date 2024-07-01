@@ -1,0 +1,4 @@
+name: Test
+version: '${version}'
+main: io.github.dalgiechgo.aimia_test.Test
+api-version: 1.20
