@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 public class ProcessBuilderTest {
     public static void doTest(Logger logger) throws IOException {
-        ProcessBuilder processBuilder = new ProcessBuilder("python", "plugins\\pythonFiles\\test.py", "HiHi");
+        ProcessBuilder processBuilder = new ProcessBuilder("python", "plugins\\pythonFiles\\test.py");
 //        ProcessBuilder processBuilder = new ProcessBuilder("python", "C:\\Users\\kyung\\Desktop\\work\\AIMIA\\AIMIAplugin\\test\\pythonFiles\\test.py", "HiHi");
         Process process = processBuilder.start();
 
@@ -18,7 +18,7 @@ public class ProcessBuilderTest {
 
         String line;
         while((line = reader.readLine()) != null){
-            logger.info(line);
+            logger.info("py : " + line);
         }
 
         

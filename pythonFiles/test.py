@@ -1,3 +1,4 @@
+import time
 from socket import *
 from select import select
 import sys
@@ -10,12 +11,17 @@ def sendmessage(msg):
     clientSocket = socket(AF_INET, SOCK_STREAM)
     try:
         clientSocket.connect((HOST, PORT))
-        clientSocket.sendall((bytes(msg, 'UTF_8')))
+
+        clientSocket.sendall(msg.encode())
         print("Send: Hello, Java!")
+
+        data = clientSocket.recv(BUFSIZE)
+        print("Recived :", repr(data.decode()))
+
         clientSocket.close()
         print("client finish")
         return True;
     except Exception as e:
         print(e)
 
-sendmessage("HELLO JAVA!")
+sendmessage("3\n")

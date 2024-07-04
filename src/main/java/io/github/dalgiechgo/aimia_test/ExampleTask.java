@@ -20,7 +20,6 @@ public class ExampleTask extends BukkitRunnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        plugin.getLogger().info("moving!!");
     }
 
 }
