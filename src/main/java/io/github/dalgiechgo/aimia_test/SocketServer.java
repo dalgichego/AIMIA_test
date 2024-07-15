@@ -1,6 +1,9 @@
 package io.github.dalgiechgo.aimia_test;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -17,6 +20,9 @@ public class SocketServer {
 
     public void run(){
         try{
+            JSONParser parser = new JSONParser();
+            JSONObject obj;
+
             ServerSocket serverSocket = new ServerSocket(8112);
             plugin.getLogger().info("waiting for connect...");
             Socket socket = serverSocket.accept();
@@ -24,14 +30,19 @@ public class SocketServer {
 
             BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 //            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
-            String rev = br.readLine();
-            plugin.getLogger().info(rev);
-            plugin.getLogger().info(Integer.toString(Integer.parseInt(rev)*2));
+            String rdata = br.readLine();
+            plugin.getLogger().info("receive: " + rdata);
+            obj = (JSONObject)parser.parse(rdata);
+            int num = ((Long)obj.get("num")).intValue();
+            obj.replace("contents", "this is a content from Java");
 
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 //            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
-            bw.write(Integer.toString(Integer.parseInt(rev)*2));
-            bw.newLine();
+            String sdata = obj.toString();
+//            String sdata = "{\"name\":\"server\",  \"contents\":\"this is a content from Java\", \"num\":\""+num+"\"}";
+//            obj = (JSONObject)parser.parse(sdata);
+            bw.write(sdata);
+//            bw.newLine();
             bw.flush();
 
 //            OutputStream sender = socket.getOutputStream();
@@ -53,7 +64,7 @@ public class SocketServer {
             bw.close();
             plugin.getLogger().info("finish");
         }
-        catch (IOException e){
+        catch (IOException | ParseException e){
             e.printStackTrace();
         }
     }
