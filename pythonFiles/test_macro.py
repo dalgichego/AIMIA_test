@@ -5,12 +5,6 @@ import time
 hWnd = win32gui.FindWindow(None, "Minecraft 1.21.4 - 싱글플레이")
 print(hWnd)
 
-# def click1(x, y):
-#     lParam = win32api.MAKELONG(x, y)
-#
-#     win = win32ui.CreateWindowFromHandle(hWnd)
-#     win.PostMessage(win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, lParam)
-#     win.PostMessage(win32con.WM_LBUTTONUP, None, lParam)
 def click1(x, y):
     lParam = win32api.MAKELONG(x, y)
 
@@ -18,12 +12,12 @@ def click1(x, y):
     win.PostMessage(win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, lParam)
     win.PostMessage(win32con.WM_LBUTTONUP, None, lParam)
 
-def click2(x, y):
-    lParam = win32api.MAKELONG(x, y)
-
-    hWnd1 = win32gui.FindWindowEx(hWnd, None, None, None)
-    win32gui.PostMessage(hWnd1, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, lParam)
-    win32gui.PostMessage(hWnd1, win32con.WM_LBUTTONUP,  win32con.MK_LBUTTON, lParam)
+# def click2(x, y):
+#     lParam = win32api.MAKELONG(x, y)
+#
+#     hWnd1 = win32gui.FindWindowEx(hWnd, None, None, None)
+#     win32gui.PostMessage(hWnd1, win32con.WM_LBUTTONDOWN, win32con.MK_LBUTTON, lParam)
+#     win32gui.PostMessage(hWnd1, win32con.WM_LBUTTONUP,  win32con.MK_LBUTTON, lParam)
 
 
 def move_mouse_relative(dx, dy):

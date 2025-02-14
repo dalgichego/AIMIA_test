@@ -15,56 +15,65 @@ import java.nio.charset.StandardCharsets;
 public class SocketServer {
 
     private final JavaPlugin plugin;
+    public Socket socket;
+    public ServerSocket serverSocket;
+    public BufferedReader br;
+    public BufferedWriter bw;
 
-    public SocketServer(JavaPlugin plugin){this.plugin = plugin;}
+    public SocketServer(JavaPlugin plugin){
+        this.plugin = plugin;
+    }
 
-    public void run(){
+    public Socket getSocket(){
+        return socket;
+    }
+
+    public void connect(){
         try{
-            JSONParser parser = new JSONParser();
-            JSONObject obj;
-
-            ServerSocket serverSocket = new ServerSocket(8112);
+            serverSocket = new ServerSocket(8112);
             plugin.getLogger().info("waiting for connect...");
-            Socket socket = serverSocket.accept();
+            socket = serverSocket.accept();
             plugin.getLogger().info("client connected");
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
-            String rdata = br.readLine();
-            plugin.getLogger().info("receive: " + rdata);
-            obj = (JSONObject)parser.parse(rdata);
-            int num = ((Long)obj.get("num")).intValue();
-            obj.replace("contents", "this is a content from Java");
+            br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-//            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
-            String sdata = obj.toString();
-//            String sdata = "{\"name\":\"server\",  \"contents\":\"this is a content from Java\", \"num\":\""+num+"\"}";
-//            obj = (JSONObject)parser.parse(sdata);
-            bw.write(sdata);
-//            bw.newLine();
-            bw.flush();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 
-//            OutputStream sender = socket.getOutputStream();
-//            String msg = "Hello python, This is Java. ";
-//            byte[] data = msg.getBytes();
-//            ByteBuffer b = ByteBuffer.allocate(4);
-//            b.order(ByteOrder.LITTLE_ENDIAN);
-//            b.putInt(data.length);
-//            sender.write(b.array(), 0, 4);
-//            sender.write(data);
-
-//            PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
-//            out.println("Hello");
-//            out.flush();
-
+    public void close(){
+        try{
             socket.close();
             serverSocket.close();
             br.close();
             bw.close();
             plugin.getLogger().info("finish");
         }
-        catch (IOException | ParseException e){
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public String receive(){
+        try {
+            String rdata = br.readLine();
+            return rdata;
+        }
+        catch (IOException e){
+            e.printStackTrace();
+            return "None";
+        }
+    }
+
+    public void write(String msg){
+        try {
+            bw.write(msg);
+            bw.flush();
+        }
+        catch (IOException e){
             e.printStackTrace();
         }
     }

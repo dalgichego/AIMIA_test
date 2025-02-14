@@ -12,44 +12,27 @@ import static io.github.dalgiechgo.aimia_test.SocketTask.*;
 
 public final class Test extends JavaPlugin {
 
+    private static Test instance;
+
     @Override
     public void onEnable() {
         // Plugin startup logic
+        instance = this;
         getLogger().info("STARTED!!!!!!!!!");
+        getServer().getPluginManager().registerEvents(new EventListener(), this);
+//        EventListener listener = new EventListener(this);
 
-        BukkitTask socketTask = new SocketTask(this).runTaskAsynchronously(this);
-        BukkitTask extask = new ExampleTask(this).runTaskAsynchronously(this);
-
-//        JSONObject jo = new JSONObject();
-//        jo.put("x", 0);
-//        jo.put("y", 1);
-//        UseJson jf = new UseJson("plugins\\jsonFiles\\data.json");
-//        try {
-//            jf.write(jo);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        try {
-//            getLogger().info(jf.read().toString());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//
+//        BukkitTask socketTask = new SocketTask(this).runTaskTimerAsynchronously(this, 0L, 1L);
 //        BukkitTask extask = new ExampleTask(this).runTaskAsynchronously(this);
-////        extask.run();
-//        getLogger().info("Next statement");
-//
-//        for(int i=0; i<10; i++){
-//            getLogger().info(Integer.toString(i)+"java");
-//        }
-
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public static Test inst() {
+        return instance;
     }
 }
 
